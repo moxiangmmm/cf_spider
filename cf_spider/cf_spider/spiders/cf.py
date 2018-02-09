@@ -3,39 +3,46 @@ import scrapy
 from copy import deepcopy
 import re
 import time
-from ..read_company import read_company
+from ..read_company import read_company2
+from ..item_dump import Item_dump
+
+# url去重
+# 保存数据库
+# 设置日志
+
 
 class CfSpider(scrapy.Spider):
     name = 'cf'
     allowed_domains = ['jzsc.mohurd.gov.cn']
     cf_href = "http://jzsc.mohurd.gov.cn/dataservice/query/comp/caDetailList/{}?_={}"
-    #          http://jzsc.mohurd.gov.cn/dataservice/query/comp/caDetailList/001607220057244810?_=1518081621631
-    #          http://jzsc.mohurd.gov.cn/dataservice/query/comp/caDetailList/1518081406000?_=001607220057244810
-    company_list = ["徐州天达网架幕墙有限公司"]
+    company_list = read_company2('/home/python/Desktop/爬虫/cf_spider/cf_spider/cf_spider/sz_total.csv')
 
     def start_requests(self):
         search_url = "http://jzsc.mohurd.gov.cn/dataservice/query/comp/list"
         for company in self.company_list:
-            item = {"company":company, "type":None}
-            data = {
-                "qy_type":"",
-                "apt_scope":"",
-                "apt_code":"",
-                "qy_name":"",
-                "qy_code":"",
-                "apt_certno":"",
-                "qy_fr_name":"",
-                "qy_gljg":"",
-                "qy_reg_addr":"",
-                "qy_region":"",
-                "complexname": company
-            }
-            yield scrapy.FormRequest(
-                search_url,
-                formdata=data,
-                callback=self.parse,
-                meta={"item":item}
-            )
+            i = Item_dump(company,'cf_dump')
+            ret = i.item_dump()
+            if not ret:
+                item = {"company":company, "type":None}
+                data = {
+                    "qy_type":"",
+                    "apt_scope":"",
+                    "apt_code":"",
+                    "qy_name":"",
+                    "qy_code":"",
+                    "apt_certno":"",
+                    "qy_fr_name":"",
+                    "qy_gljg":"",
+                    "qy_reg_addr":"",
+                    "qy_region":"",
+                    "complexname": company
+                }
+                yield scrapy.FormRequest(
+                    search_url,
+                    formdata=data,
+                    callback=self.parse,
+                    meta={"item":item}
+                )
 
     def parse(self, response):
         item = deepcopy(response.meta["item"])

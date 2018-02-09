@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 
-# Define your item pipelines here
-#
-# Don't forget to add your pipeline to the ITEM_PIPELINES setting
-# See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
+from pymongo import MongoClient
 
 
 class CfSpiderPipeline(object):
+
+    def open_spider(self, spider):
+        client = MongoClient(host=spider.settings["MONGO_HOST"], port=spider.settings["MONGO_PORT"])
+        self.collection = client["qg_ss"]["cf_info"]
+
     def process_item(self, item, spider):
-        return item
+        self.collection.insert_one(dict(item))
+        print("保存成功！")

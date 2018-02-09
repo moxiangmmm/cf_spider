@@ -1,6 +1,7 @@
 # coding=utf-8
 import datetime
 
+# 除了名字还有其他内容的用这个
 def read_company1(csv):
     company_list = []
     with open(csv, 'r') as f:
@@ -19,7 +20,7 @@ def read_company1(csv):
             company_list.append(company)
     return company_list
 
-
+# 只有名字的csv用这个
 def read_company2(csv):
     company_list = []
     with open(csv, 'r') as f:
