@@ -25,7 +25,7 @@ ROBOTSTXT_OBEY = False
 #CONCURRENT_REQUESTS = 32
 
 
-DOWNLOAD_DELAY = 3
+DOWNLOAD_DELAY = 1
 
 
 # Disable cookies (enabled by default)

@@ -3,7 +3,7 @@ import scrapy
 from copy import deepcopy
 import re
 import time
-from ..read_company import read_company2
+from ..read_company import read_company1, read_company2
 from ..item_dump import Item_dump
 
 # url去重
@@ -15,11 +15,12 @@ class CfSpider(scrapy.Spider):
     name = 'cf'
     allowed_domains = ['jzsc.mohurd.gov.cn']
     cf_href = "http://jzsc.mohurd.gov.cn/dataservice/query/comp/caDetailList/{}?_={}"
-    company_list = read_company2('/home/python/Desktop/爬虫/cf_spider/cf_spider/cf_spider/sz_total.csv')
+    company_list = read_company2('/home/python/Desktop/company/sx_company.csv')
 
     def start_requests(self):
         search_url = "http://jzsc.mohurd.gov.cn/dataservice/query/comp/list"
         for company in self.company_list:
+            print(company)
             i = Item_dump(company,'cf_dump')
             ret = i.item_dump()
             if not ret:
