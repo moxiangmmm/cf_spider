@@ -15,7 +15,7 @@ class CfSpider(scrapy.Spider):
     name = 'cf'
     allowed_domains = ['jzsc.mohurd.gov.cn']
     cf_href = "http://jzsc.mohurd.gov.cn/dataservice/query/comp/caDetailList/{}?_={}"
-    company_list = read_company2('/home/python/Desktop/company/sx_company.csv')
+    company_list = read_company2('/home/python/Desktop/company/jx_company.csv')
 
     def start_requests(self):
         search_url = "http://jzsc.mohurd.gov.cn/dataservice/query/comp/list"

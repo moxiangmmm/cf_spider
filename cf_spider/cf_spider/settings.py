@@ -34,7 +34,7 @@ COOKIES_ENABLED = False
 
 DOWNLOADER_MIDDLEWARES = {
     'cf_spider.middlewares.RrandomUA': 543,
-    'cf_spider.middlewares.ProxyMiddleware': 544
+    # 'cf_spider.middlewares.ProxyMiddleware': 544
 }
 
 
